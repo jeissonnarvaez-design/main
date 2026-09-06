@@ -4,7 +4,7 @@
   @if (currentPage) {
   <div class="browser-info">
     <div class="browser-bar">
-      <span>🔒 {{ currentPage.value.url }}</span>
+      <span> {{ currentPage.value.url }}</span>
     </div>
 
     <h3>{{ currentPage.value.titulo }}</h3>
@@ -13,13 +13,13 @@
       <button 
         (click)="goBack()" 
         [disabled]="!currentPage.prev">
-        ⬅️ Atrás
+        Atrás
       </button>
 
       <button 
         (click)="goForward()" 
         [disabled]="!currentPage.next">
-        Adelante ➡️
+        Adelante
       </button>
     </div>
   </div>
