@@ -1,0 +1,18 @@
+<main class="main-container">
+  <h1>Sistema de Turnos - Clínica / Banco</h1>
+
+  <!-- Componente Hijo recibiendo la prop [currentTurn] -->
+  <app-turn-display [currentTurn]="currentNode() ? currentNode()!.value : 'Fila vacía'"></app-turn-display>
+
+  <div class="controls">
+    <!-- Botón para avanzar al siguiente turno circular -->
+    <button (click)="nextTurn()">Siguiente Turno</button>
+  </div>
+
+  <div class="add-section">
+    <input #turnInput placeholder="Ej: Turno 1" />
+    <button (click)="addNewTurn(turnInput.value); turnInput.value=''">Agregar Turno</button>
+  </div>
+
+  <p>Total de turnos en la cola circular: {{ totalTurns() }}</p>
+</main>

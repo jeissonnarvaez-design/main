@@ -1,0 +1,15 @@
+<h2>Gestión de Estudiantes (Lista Enlazada)</h2>
+
+<div>
+  <input placeholder="Nombre" (change)="nameInput = $any($event.target).value" [value]="nameInput" />
+  <input placeholder="Edad" type="number" (change)="ageInput = $any($event.target).value" [value]="ageInput" />
+  <input placeholder="Código" (change)="codeInput = $any($event.target).value" [value]="codeInput" />
+  <button (click)="addStudent()">Agregar Estudiante</button>
+</div>
+
+<hr />
+
+<app-students 
+  [students]="studentsListSignal()" 
+  (removeStudent)="deleteStudent($any($event))">
+</app-students>
