@@ -1,0 +1,118 @@
+<div class="dashboard">
+  <header class="header">
+    <h1>Sistema de Gestión Clínica</h1>
+    <p>Estructuras de Datos Enlazadas</p>
+  </header>
+
+  <div class="banner-doctor">
+    @if (currentMedicosSignal(); as medico) {
+      <div class="doctor-card">
+        <span class="tag">Médico de Guardia Actual</span>
+        <h2>{{ medico.nombre }}</h2>
+        <p>{{ medico.especialidad }}</p>
+        <div class="timer">
+          Siguiente rotación en: <strong>{{ temporizadorSignal() }}s</strong>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h3>Pacientes en Espera</h3>
+
+      <div class="form-group">
+        <input [(ngModel)]="newNombrePaciente" placeholder="Nombre del paciente" />
+        <input [(ngModel)]="newSintomasPaciente" placeholder="Síntomas" />
+        <button (click)="anadirPaciente()" [disabled]="!newNombrePaciente.trim()">
+          Añadir a Espera
+        </button>
+      </div>
+
+      <button 
+        class="btn-attend" 
+        (click)="atenderPaciente()" 
+        [disabled]="listaEsperaSignal().length === 0">
+        Atender Siguiente
+      </button>
+
+      <div class="node-list">
+        @for (paciente of listaEsperaSignal(); track paciente.id) {
+          <div class="node-item">
+            <div class="node-info">
+              <strong>#{{ paciente.id }} {{ paciente.nombre }}</strong>
+              <small>{{ paciente.sintomas }}</small>
+            </div>
+            <span class="pointer">next</span>
+          </div>
+        } @empty {
+          <p class="empty">No hay pacientes registrados en espera.</p>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Historial Clínico</h3>
+      <div class="node-list">
+        @for (item of listaHistorialSignal(); track item.idPaciente) {
+          <div class="node-item doubly">
+            <span class="pointer">prev</span>
+            <div class="node-info">
+              <strong>{{ item.nombrePaciente }}</strong>
+              <small>Atendido por: {{ item.medicoAtendio }}</small>
+              <small>Hora: {{ item.fechaHora }}</small>
+            </div>
+            <span class="pointer">next</span>
+          </div>
+        } @empty {
+          <p class="empty">Aún no se ha atendido ningún paciente.</p>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Rotación de Guardia</h3>
+      <div class="node-list">
+        @for (medico of listaMedicosSignal(); track medico.id) {
+          <div 
+            class="node-item" 
+            [class.active]="medico.id === currentMedicosSignal()?.id">
+            <div class="node-info">
+              <strong>{{ medico.nombre }}</strong>
+              <small>{{ medico.especialidad }}</small>
+            </div>
+            <span class="pointer"></span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Comité Administrativo</h3>
+
+      @if (currentComiteSignal(); as miembro) {
+        <div class="committee-nav">
+          <button (click)="miembroAnteriorComite()">Anterior</button>
+          <div class="member-detail">
+            <h4>{{ miembro.nombre }}</h4>
+            <p>{{ miembro.cargo }}</p>
+          </div>
+          <button (click)="siguienteMiembroComite()">Siguiente</button>
+        </div>
+      }
+
+      <div class="node-list">
+        @for (m of listaComiteSignal(); track m.id) {
+          <div 
+            class="node-item" 
+            [class.active]="m.id === currentComiteSignal()?.id">
+            <div class="node-info">
+              <strong>{{ m.nombre }}</strong>
+              <small>{{ m.cargo }}</small>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>
