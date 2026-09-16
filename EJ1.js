@@ -48,3 +48,6 @@ Conversión y otros
 35)	entries(): Devuelve un iterador con los pares [índice, valor].
 36)	keys(): Devuelve un iterador con las claves (índices).
 37)	values(): Devuelve un iterador con los valores.
+
+
+Lo subi denuevo por que por alguna razon al subir el challenge 2, se borro del repositorio y no me dejo recuperarlo
