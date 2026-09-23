@@ -1,0 +1,47 @@
+<h1>Simulador de Cajero Automático (ATM)</h1>
+
+<button type="button" (click)="cargarDatosDePrueba()">Cargar Datos de Prueba</button>
+
+<h2>Registrar Cliente en Fila (Enqueue)</h2>
+
+<div>
+  <label for="nombreCompleto">Nombre completo:</label>
+  <input id="nombreCompleto" type="text" [(ngModel)]="nuevoNombre" placeholder="Ej. Ana García" />
+</div>
+
+<div>
+  <label for="montoRetiro">Monto a retirar ($):</label>
+  <input id="montoRetiro" type="number" min="1" [(ngModel)]="nuevoMonto" placeholder="Ej. 50000" />
+</div>
+
+<button type="button" (click)="agregarPersona()">Encolar Cliente</button>
+
+<h3>Personas en Fila</h3>
+<p>{{ colaPersonas().length }}</p>
+
+<h3>Siguiente en Turno (Peek)</h3>
+<p>{{ colaPersonas()[0]?.nombre || 'Ninguno' }}</p>
+
+<h3>Monto Siguiente</h3>
+<p>{{ colaPersonas()[0] ? ('$' + colaPersonas()[0].montoRetiro.toLocaleString()) : '$0' }}</p>
+
+<h2>Fila del Cajero (Orden FIFO)</h2>
+
+<button type="button" (click)="atenderPersona()">Atender Siguiente (Dequeue)</button>
+
+@if (colaPersonas().length === 0) {
+  <p>No hay clientes esperando en la fila del cajero automático.</p>
+} @else {
+  <ul>
+    @for (persona of colaPersonas(); track persona.id; let i = $index) {
+      <li>
+        <p>{{ i === 0 ? 'FRENTE (En cajero)' : 'Posición #' + (i + 1) }}</p>
+
+        <p><strong>{{ persona.nombre }}</strong></p>
+
+        <p>Monto: <strong>${{ persona.montoRetiro.toLocaleString() }}</strong> | Llegada: {{ persona.fechaLlegada | date:'hh:mm:ss a' }}</p>
+      </li>
+    }
+  </ul>
+}
+

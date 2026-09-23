@@ -1,0 +1,57 @@
+<section class="book-stack">
+  <h2>Agregar Nuevo Libro</h2>
+
+  <form class="book-form" [formGroup]="bookForm" (ngSubmit)="addBook()">
+    <div class="form-group">
+      <label for="name">Título del Libro:</label>
+      <input id="name" type="text" formControlName="name" placeholder="Ej: El Principito" />
+    </div>
+
+    <div class="form-group">
+      <label for="isbn">ISBN:</label>
+      <input id="isbn" type="text" formControlName="isbn" placeholder="Ej: 978-84-..." />
+    </div>
+
+    <div class="form-group">
+      <label for="author">Autor:</label>
+      <input id="author" type="text" formControlName="author" placeholder="Ej: Gabriel García Márquez" />
+    </div>
+
+    <div class="form-group">
+      <label for="editorial">Editorial:</label>
+      <input id="editorial" type="text" formControlName="editorial" placeholder="Ej: Sudamericana" />
+    </div>
+
+    <div class="stack-actions">
+      <button type="submit" class="btn-primary" [disabled]="bookForm.invalid">
+        Push (Agregar a la Pila)
+      </button>
+
+      <button type="button" class="btn-danger" (click)="removeBook()">
+        Pop (Desapilar del Tope)
+      </button>
+    </div>
+  </form>
+
+  <h3 class="stack-title">
+    Pila de Libros (Total: {{ totalBooks() }})
+  </h3>
+
+  @if (displayedStack().length === 0) {
+    <p class="empty-message">La pila está vacía.</p>
+  } @else {
+    @for (book of displayedStack(); track book.isbn; let i = $index) {
+      @if (i === 0) {
+        <p class="top-label">TOPE (TOP)</p>
+      }
+
+      <article class="book-card">
+        <h4>{{ book.name }}</h4>
+
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <p><strong>Autor:</strong> {{ book.author }}</p>
+        <p><strong>Editorial:</strong> {{ book.editorial }}</p>
+      </article>
+    }
+  }
+</section>
