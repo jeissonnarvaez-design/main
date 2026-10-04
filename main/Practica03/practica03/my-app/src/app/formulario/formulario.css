@@ -1,8 +1,0 @@
-.form-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 2rem;
-}
-.form-container input {
-  flex: 1;
-}
