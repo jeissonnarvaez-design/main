@@ -1,0 +1,29 @@
+<li class="menu-item" [style.paddingLeft.px]="nivel * 16">
+  <!-- Si tiene hijos, mostramos un botón expandible -->
+  <div
+    class="menu-row"
+    *ngIf="!nodo.esHoja(); else hoja"
+    (click)="toggle()">
+    <span class="arrow" [class.rotated]="expandido">▸</span>
+    <span class="label">{{ nodo.titulo }}</span>
+  </div>
+
+  <!-- Si es hoja, mostramos un enlace directo -->
+  <ng-template #hoja>
+    <a
+      class="menu-row leaf"
+      [routerLink]="nodo.enlace"
+      routerLinkActive="active">
+      <span class="label">{{ nodo.titulo }}</span>
+    </a>
+  </ng-template>
+
+  <!-- Submenús (recursión) -->
+  <ul class="submenu" *ngIf="expandido && !nodo.esHoja()">
+    <app-menu-item
+      *ngFor="let hijo of nodo.hijos"
+      [nodo]="hijo"
+      [nivel]="nivel + 1">
+    </app-menu-item>
+  </ul>
+</li>

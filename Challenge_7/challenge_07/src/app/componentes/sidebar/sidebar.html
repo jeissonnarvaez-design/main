@@ -1,0 +1,9 @@
+<div class="sidebar">
+  <h3 class="sidebar-title">Mi Aplicación</h3>
+  <ul class="menu-list">
+    <app-menu-item
+      *ngFor="let hijo of raiz.hijos"
+      [nodo]="hijo">
+    </app-menu-item>
+  </ul>
+</div>

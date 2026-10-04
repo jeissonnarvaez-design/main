@@ -1,0 +1,21 @@
+<div style="font-family: Arial; padding: 20px;">
+  <h1>{{ titulo }}</h1>
+
+  <h2>Recorridos</h2>
+  
+  <h3>🔹 InOrder (ordenado)</h3>
+  <p>{{ enOrden.join(' -> ') }}</p>
+
+  <h3>🔹 PreOrder</h3>
+  <p>{{ preOrden.join(' -> ') }}</p>
+
+  <h3>🔹 PostOrder</h3>
+  <p>{{ postOrden.join(' -> ') }}</p>
+
+  <h2>Verificación de nodos</h2>
+  <p>¿Existe el nodo 30? <strong>{{ existe30 ? 'Sí' : 'No' }}</strong></p>
+  <p>¿Existe el nodo 99? <strong>{{ existe99 ? 'Sí' : 'No' }}</strong></p>
+
+  <h2>Visualización con D3</h2>
+  <svg id="svg-arbol"></svg>
+</div>

@@ -1,0 +1,21 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: #1e1e2d;
+  color: #fff;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  padding: 0 20px 15px;
+  font-size: 18px;
+  border-bottom: 1px solid #2e2e3e;
+  margin-bottom: 10px;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
