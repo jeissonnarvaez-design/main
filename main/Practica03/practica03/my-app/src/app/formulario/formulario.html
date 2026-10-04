@@ -1,0 +1,13 @@
+<form class="contacto-formulario" (submit)="submit($event)">
+    <input
+    type="text"
+    placeholder="Nombre del contacto"
+    (change)="captureName($event)"
+    />
+    <input
+    type="text"
+    placeholder="Telefono"
+    (change)="capturePhone($event)"
+    />
+    <button type="submit">Agregar contacto</button>
+</form>

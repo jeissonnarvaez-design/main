@@ -1,0 +1,22 @@
+.turn-box {
+  background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+  border: 2px dashed #c7d2fe;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.turn-box h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #4338ca;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.highlight {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #4f46e5;
+  margin: 0;
+}
