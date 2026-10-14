@@ -1,0 +1,147 @@
+@use 'sass:color';
+
+$primary-color: #007bff;
+$primary-hover: #0056b3;
+$secondary-color: #6c757d;
+$secondary-hover: #5a6268;
+$bg-color: #f4f6f9;
+$card-bg: #ffffff;
+$text-color: #333;
+$text-muted: #6c757d;
+$border-color: #ced4da;
+$error-color: #dc3545;
+$radius: 8px;
+$shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-wrapper {
+  @include flex-center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-color 0%, #dfe6e9 100%);
+  padding: 20px;
+}
+
+.login-container {
+  background: $card-bg;
+  padding: 40px;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h2 {
+      margin: 0;
+      color: $text-color;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      margin: 5px 0 0;
+      color: $text-muted;
+      font-size: 0.9rem;
+    }
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $text-color;
+      }
+
+      input {
+        padding: 12px 15px;
+        border: 1px solid $border-color;
+        border-radius: $radius;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+        }
+
+        &::placeholder {
+          color: color.adjust($text-muted, $lightness: 20%);
+        }
+      }
+    }
+
+    .botones {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+
+      button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: $radius;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+
+      .btn-primary {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+          background-color: $primary-hover;
+        }
+      }
+
+      .btn-secondary {
+        background-color: $secondary-color;
+        color: white;
+
+        &:hover {
+          background-color: $secondary-hover;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 25px;
+
+    .login-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .botones {
+      flex-direction: column;
+    }
+  }
+}
