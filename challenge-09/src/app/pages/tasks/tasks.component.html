@@ -1,0 +1,37 @@
+<!-- src/app/pages/tasks/tasks.component.html -->
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Gestor de Tareas</h2>
+    <button class="btn btn-danger" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <!-- Formulario para agregar -->
+  <div class="card p-3 mb-4 shadow-sm">
+    <h5>Nueva Tarea</h5>
+    <div class="mb-2">
+      <input type="text" placeholder="Título" [ngModel]="newTitle()" (ngModelChange)="newTitle.set($event)" class="form-control" />
+    </div>
+    <div class="mb-2">
+      <input type="text" placeholder="Descripción" [ngModel]="newDesc()" (ngModelChange)="newDesc.set($event)" class="form-control" />
+    </div>
+    <button class="btn btn-success" (click)="addTask()">Crear Tarea</button>
+  </div>
+
+  <!-- Listado de Tareas -->
+  <div class="list-group">
+    @for (task of taskService.results(); track task.id) {
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <h5 [class.text-decoration-line-through]="task.completed">{{ task.title }}</h5>
+          <p class="mb-1 text-muted">{{ task.description }}</p>
+        </div>
+        <div>
+          <button class="btn btn-sm me-2" [ngClass]="task.completed ? 'btn-secondary' : 'btn-outline-success'" (click)="toggleComplete(task)">
+            {{ task.completed ? 'Completada' : 'Pendiente' }}
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">Eliminar</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
