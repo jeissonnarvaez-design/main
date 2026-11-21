@@ -1,0 +1,35 @@
+<section class="card">
+  <header class="row">
+    <h1>Mis tareas</h1>
+    <span class="badge" [class.on]="enVivo()">{{ enVivo() ? 'En vivo' : 'Conectando…' }}</span>
+  </header>
+  <p class="muted">{{ pendientes() }} pendiente(s) de {{ tareas().length }}</p>
+
+  <form class="row" (ngSubmit)="agregar()">
+    <input name="nueva" [(ngModel)]="nueva" placeholder="Nueva tarea" required />
+    <button type="submit">Agregar</button>
+  </form>
+
+  @if (error()) {
+    <p class="msg err">{{ error() }}</p>
+  }
+
+  <ul class="lista">
+    @for (t of tareas(); track t.id) {
+      <li [class.hecha]="t.completada">
+        <input type="checkbox" [checked]="t.completada" (change)="completar(t)" />
+        @if (editandoId() === t.id) {
+          <input class="grow" name="edicion" [(ngModel)]="textoEdicion"
+                 (keyup.enter)="guardarEdicion(t)" (keyup.escape)="editandoId.set(null)" />
+          <button type="button" (click)="guardarEdicion(t)">Guardar</button>
+        } @else {
+          <span class="grow titulo" (dblclick)="empezarEdicion(t)">{{ t.titulo }}</span>
+          <button type="button" class="secondary" (click)="empezarEdicion(t)">Editar</button>
+        }
+        <button type="button" class="danger" (click)="borrar(t)">Borrar</button>
+      </li>
+    } @empty {
+      <li class="vacio">No hay tareas</li>
+    }
+  </ul>
+</section>

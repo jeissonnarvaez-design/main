@@ -1,0 +1,13 @@
+<nav class="topbar">
+  <strong>Challenge 10 · Supabase</strong>
+  @if (auth.session()) {
+    <div class="links">
+      <a routerLink="/tareas" routerLinkActive="active">Tareas</a>
+      <a routerLink="/perfil" routerLinkActive="active">Perfil</a>
+      <button type="button" class="secondary" (click)="salir()">Salir</button>
+    </div>
+  }
+</nav>
+<main>
+  <router-outlet />
+</main>

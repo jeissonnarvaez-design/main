@@ -1,0 +1,21 @@
+<section class="card narrow">
+  <h1>Perfil</h1>
+  <p class="muted">{{ auth.session()?.user?.email }}</p>
+
+  <div class="avatar">
+    @if (url()) {
+      <img [src]="url()" width="160" alt="Avatar" />
+    } @else {
+      <div class="placeholder">Sin avatar</div>
+    }
+  </div>
+
+  <label class="file">
+    {{ subiendo() ? 'Subiendo…' : 'Subir imagen' }}
+    <input type="file" accept="image/*" (change)="subir($event)" [disabled]="subiendo()" />
+  </label>
+
+  @if (msg()) {
+    <p class="msg">{{ msg() }}</p>
+  }
+</section>

@@ -1,0 +1,14 @@
+<section class="card narrow">
+  <h1>Iniciar sesión</h1>
+
+  <form (ngSubmit)="entrar()">
+    <input type="email" name="email" [(ngModel)]="email" placeholder="Correo" required autocomplete="email" />
+    <input type="password" name="clave" [(ngModel)]="clave" placeholder="Contraseña" required autocomplete="current-password" />
+    <button type="submit" [disabled]="cargando()">Entrar</button>
+    <button type="button" class="secondary" (click)="registrar()" [disabled]="cargando()">Crear cuenta</button>
+  </form>
+
+  @if (msg()) {
+    <p class="msg" [class.err]="error()">{{ msg() }}</p>
+  }
+</section>
