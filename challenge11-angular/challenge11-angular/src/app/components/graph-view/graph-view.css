@@ -1,0 +1,15 @@
+:host { display: block; width: 100%; height: 100%; }
+svg { width: 100%; height: 100%; display: block; }
+
+:host ::ng-deep .link.friend { stroke: var(--friend); stroke-width: 2; }
+:host ::ng-deep .link.lives { stroke: var(--city); stroke-width: 1.5; stroke-dasharray: 5 4; }
+:host ::ng-deep .node { cursor: grab; }
+:host ::ng-deep .node circle { stroke: #fff; stroke-width: 2; }
+:host ::ng-deep .node.person circle { fill: var(--person); }
+:host ::ng-deep .node.city circle { fill: var(--city); }
+:host ::ng-deep .node text {
+  font-size: 12px; text-anchor: middle; pointer-events: none;
+  paint-order: stroke; stroke: #fff; stroke-width: 3px; fill: var(--text);
+}
+:host ::ng-deep .node.city text { font-weight: 700; }
+:host ::ng-deep .faded { opacity: 0.15; }

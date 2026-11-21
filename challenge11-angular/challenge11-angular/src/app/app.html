@@ -1,0 +1,98 @@
+<aside>
+  <h1>Challenge 11</h1>
+  <p class="subtitle">Grafo no dirigido de amigos y ciudades</p>
+
+  <h2>Personas que viven en…</h2>
+  <select [ngModel]="selectedCity()" (ngModelChange)="selectCity($event)" name="citySelect">
+    <option value="">— Selecciona una ciudad —</option>
+    @for (c of graph.cities(); track c.id) {
+      <option [value]="c.name">{{ c.name }}</option>
+    }
+  </select>
+  @if (selectedCity()) {
+    <ul class="people">
+      @for (p of peopleInSelectedCity(); track p.id) {
+        <li>{{ p.name }} — {{ p.age }} años</li>
+      } @empty {
+        <li>(nadie vive aquí)</li>
+      }
+    </ul>
+  }
+
+  <h2>Agregar ciudad</h2>
+  <form (ngSubmit)="addCity()">
+    <input [(ngModel)]="newCity" name="cityName" placeholder="Nombre" required />
+    <button type="submit">Agregar</button>
+  </form>
+
+  <h2>Agregar persona</h2>
+  <form (ngSubmit)="addPerson()">
+    <input [(ngModel)]="newPerson.name" name="personName" placeholder="Nombre" required />
+    <input [(ngModel)]="newPerson.age" name="personAge" type="number" min="0" placeholder="Edad" required class="age" />
+    <select [(ngModel)]="newPerson.city" name="personCity" required>
+      <option value="" disabled>Ciudad</option>
+      @for (c of graph.cities(); track c.id) {
+        <option [value]="c.name">{{ c.name }}</option>
+      }
+    </select>
+    <button type="submit">Agregar</button>
+  </form>
+
+  <h2>Agregar amistad</h2>
+  <form (ngSubmit)="addFriendship()">
+    <select [(ngModel)]="friendship.a" name="friendA" required>
+      <option value="" disabled>Persona A</option>
+      @for (p of graph.people(); track p.id) {
+        <option [value]="p.name">{{ p.name }}</option>
+      }
+    </select>
+    <select [(ngModel)]="friendship.b" name="friendB" required>
+      <option value="" disabled>Persona B</option>
+      @for (p of graph.people(); track p.id) {
+        <option [value]="p.name">{{ p.name }}</option>
+      }
+    </select>
+    <button type="submit">Unir</button>
+  </form>
+
+  <h2>Eliminar nodo</h2>
+  <form (ngSubmit)="removeNode()">
+    <select [(ngModel)]="toRemove" name="removeId" required>
+      <option value="" disabled>Nodo</option>
+      <optgroup label="Personas">
+        @for (p of graph.people(); track p.id) {
+          <option [value]="p.id">{{ p.name }}</option>
+        }
+      </optgroup>
+      <optgroup label="Ciudades">
+        @for (c of graph.cities(); track c.id) {
+          <option [value]="c.id">{{ c.name }}</option>
+        }
+      </optgroup>
+    </select>
+    <button type="submit" class="danger">Eliminar</button>
+  </form>
+
+  @if (message(); as m) {
+    <p class="msg" [class.err]="!m.ok">{{ m.text }}</p>
+  }
+
+  <h2>Lista de adyacencia (print)</h2>
+  <pre>{{ graph.printed() || '(grafo vacío)' }}</pre>
+</aside>
+
+<main>
+  <app-graph-view
+    [nodes]="graph.nodes()"
+    [edges]="graph.edges()"
+    [highlight]="highlight()"
+    (nodeClick)="onNodeClick($event)"
+    (backgroundClick)="clearSelection()" />
+
+  <div class="legend">
+    <div><span class="dot person"></span>Persona</div>
+    <div><span class="dot city"></span>Ciudad</div>
+    <div><span class="line"></span>Amistad</div>
+    <div><span class="line dashed"></span>Vive en</div>
+  </div>
+</main>

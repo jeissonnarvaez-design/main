@@ -1,0 +1,30 @@
+:host { display: flex; height: 100vh; }
+aside { width: 340px; padding: 16px; background: var(--panel); border-right: 1px solid var(--border); overflow-y: auto; }
+main { flex: 1; position: relative; min-height: 0; }
+h1 { font-size: 18px; margin: 0 0 4px; }
+.subtitle { color: var(--muted); font-size: 13px; margin: 0; }
+h2 { font-size: 13px; margin: 18px 0 8px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+form { display: flex; flex-wrap: wrap; gap: 6px; }
+input, select, button { font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; }
+input, select { flex: 1 1 90px; min-width: 0; background: #fff; }
+aside > select { width: 100%; }
+input.age { flex: 0 1 70px; }
+button { background: var(--text); color: #fff; border: none; cursor: pointer; }
+button.danger { background: #dc2626; }
+.people { margin: 8px 0 0; padding-left: 18px; }
+.msg { font-size: 13px; color: #16a34a; margin: 10px 0 0; }
+.msg.err { color: #dc2626; }
+pre { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 12px; white-space: pre-wrap; max-height: 240px; overflow: auto; }
+.legend { position: absolute; top: 12px; right: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 13px; }
+.legend div { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot.person { background: var(--person); }
+.dot.city { background: var(--city); }
+.line { width: 22px; border-top: 2px solid var(--friend); }
+.line.dashed { border-top-style: dashed; border-color: var(--city); }
+
+@media (max-width: 760px) {
+  :host { flex-direction: column; height: auto; }
+  aside { width: 100%; }
+  main { height: 70vh; }
+}
