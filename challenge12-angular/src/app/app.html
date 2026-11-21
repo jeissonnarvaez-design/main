@@ -1,0 +1,73 @@
+<main class="container">
+  <header>
+    <h1>Challenge 12 · Smart Search Engine</h1>
+    <p class="subtitle">Trie para buscar por prefijo + MinHeap para el Top K más popular</p>
+  </header>
+
+  <section class="card">
+    <h2>Buscar Top K</h2>
+    <div class="row">
+      <label>
+        Prefijo
+        <input
+          type="text"
+          placeholder="ej: air"
+          [value]="prefix()"
+          (input)="prefix.set(value($event))"
+        />
+      </label>
+      <label class="small">
+        K
+        <input type="number" min="1" [value]="k()" (input)="k.set(numberValue($event))" />
+      </label>
+    </div>
+
+    <p class="call">searchTopK("{{ prefix() }}", {{ k() }})</p>
+
+    @if (results().length > 0) {
+      <ol class="results">
+        @for (p of results(); track p.name) {
+          <li>
+            <span class="name">{{ p.name }}</span>
+            <span class="pop">{{ p.popularity }}</span>
+          </li>
+        }
+      </ol>
+    } @else {
+      <p class="empty">No hay productos con ese prefijo.</p>
+    }
+
+    <pre class="json">{{ results() | json }}</pre>
+  </section>
+
+  <section class="card">
+    <h2>Insertar producto</h2>
+    <form class="row" (submit)="$event.preventDefault(); addProduct()">
+      <label>
+        Nombre
+        <input
+          type="text"
+          placeholder="ej: air zoom"
+          [value]="newName()"
+          (input)="newName.set(value($event))"
+        />
+      </label>
+      <label class="small">
+        Popularidad
+        <input
+          type="number"
+          [value]="newPopularity()"
+          (input)="newPopularity.set(numberValue($event))"
+        />
+      </label>
+      <button type="submit">Insertar</button>
+    </form>
+
+    <h3>Productos en el Trie ({{ engine.products().length }})</h3>
+    <ul class="all">
+      @for (p of engine.products(); track p.name) {
+        <li>{{ p.name }} <span class="pop">{{ p.popularity }}</span></li>
+      }
+    </ul>
+  </section>
+</main>
