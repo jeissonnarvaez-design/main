@@ -1,0 +1,49 @@
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand__logo" aria-hidden="true">♪</span>
+      <div>
+        <h1>SoundGraph</h1>
+        <p>Mini plataforma de música educativa · Parcial 3 · Estructuras de Datos II</p>
+      </div>
+    </div>
+    <ul class="pills" aria-label="Estructuras utilizadas">
+      <li>Trie</li>
+      <li>Max Heap</li>
+      <li>Grafo no dirigido</li>
+      <li>Sass</li>
+    </ul>
+  </header>
+
+  <section class="tiles" aria-label="Resumen">
+    <article class="tile">
+      <span class="tile__label">Canciones</span>
+      <strong class="tile__value">{{ stats().songs }}</strong>
+      <span class="tile__hint">palabras en el Trie</span>
+    </article>
+    <article class="tile">
+      <span class="tile__label">Nodos del Trie</span>
+      <strong class="tile__value">{{ stats().trieNodes }}</strong>
+      <span class="tile__hint">incluida la raíz</span>
+    </article>
+    <article class="tile">
+      <span class="tile__label">Conexiones</span>
+      <strong class="tile__value">{{ stats().edges }}</strong>
+      <span class="tile__hint">aristas del grafo</span>
+    </article>
+    <article class="tile tile--accent">
+      <span class="tile__label">N.º 1 (raíz del heap)</span>
+      <strong class="tile__value tile__value--text">{{ stats().top?.title ?? '—' }}</strong>
+      <span class="tile__hint">{{ stats().top?.plays ?? 0 | number }} reproducciones</span>
+    </article>
+  </section>
+
+  <main class="grid">
+    <app-song-search />
+    <app-ranking />
+    <app-recommendations class="span-2" />
+    <app-add-song class="span-2" />
+  </main>
+
+  <footer class="footer muted">Proyecto académico · Angular + Sass</footer>
+</div>

@@ -1,0 +1,58 @@
+<section class="card">
+  <header class="card__header">
+    <span class="card__icon" aria-hidden="true">Top</span>
+    <div class="grow">
+      <h2>Top canciones</h2>
+      <p>Max Heap por reproducciones · raíz = la más escuchada</p>
+    </div>
+    <div class="segmented" role="group" aria-label="Cantidad de canciones">
+      @for (o of options; track o) {
+        <button type="button" [class.on]="k() === o" (click)="k.set(o)">Top {{ o }}</button>
+      }
+    </div>
+  </header>
+
+  <ol class="ranking">
+    @for (song of top(); track song.id; let i = $index) {
+      <li class="row" [class.row--selected]="song.id === selectedId()" [attr.data-pos]="i + 1">
+        <span class="row__pos">{{ i + 1 }}</span>
+        <button type="button" class="row__info" (click)="select(song.id)" title="Ver recomendaciones">
+          <span class="row__title">{{ song.title }}</span>
+          <span class="row__artist">
+            <span class="badge badge--{{ song.genre }}">{{ song.genre }}</span>
+            {{ song.artist }}
+          </span>
+          <span class="bar"><span [style.width.%]="(song.plays / max()) * 100"></span></span>
+        </button>
+        <span class="row__plays">{{ song.plays | number }}</span>
+        <button type="button" class="btn btn--sm btn--ghost" (click)="play(song.id)" title="Sumar 500 reproducciones">
+          ▶ +500
+        </button>
+      </li>
+    }
+  </ol>
+
+  <button type="button" class="btn btn--ghost btn--sm mt-4" (click)="showHeap.set(!showHeap())">
+    {{ showHeap() ? 'Ocultar' : 'Ver' }} estructura interna del heap
+  </button>
+
+  @if (showHeap()) {
+    <div class="heap mt-3">
+      <p class="muted heap__hint">
+        Arreglo del heap por niveles. Hijo izquierdo <code>2i+1</code>, derecho <code>2i+2</code>, padre
+        <code>⌊(i−1)/2⌋</code>.
+      </p>
+      @for (level of levels(); track $index; let l = $index) {
+        <div class="heap__level">
+          <span class="heap__label">N{{ l }}</span>
+          @for (node of level; track node.song.id) {
+            <span class="heap__node" [title]="node.song.title + ' — ' + node.song.artist">
+              <small>[{{ node.index }}]</small>
+              {{ node.song.plays }}
+            </span>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

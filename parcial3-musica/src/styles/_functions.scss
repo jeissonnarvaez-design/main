@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:color';
+@use 'tokens' as t;
+
+@function rem($px) {
+  @return math.div($px, 16px) * 1rem;
+}
+
+@function space($key) {
+  @if not map.has-key(t.$spacing, $key) {
+    @error 'El espaciado `#{$key}` no existe en $spacing.';
+  }
+  @return map.get(t.$spacing, $key);
+}
+
+@function fs($key) {
+  @return rem(map.get(t.$font-sizes, $key));
+}
+
+@function genre-color($genre) {
+  @return map.get(t.$genre-colors, $genre);
+}
+
+@function tint($color, $alpha: 0.15) {
+  @return color.change($color, $alpha: $alpha);
+}

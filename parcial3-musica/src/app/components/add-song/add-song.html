@@ -1,0 +1,59 @@
+<section class="card">
+  <header class="card__header">
+    <span class="card__icon" aria-hidden="true">+</span>
+    <div>
+      <h2>Insertar canción</h2>
+      <p>Se agrega al Trie, al Max Heap y como nodo del grafo</p>
+    </div>
+  </header>
+
+  <form class="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label for="title">Título</label>
+      <input id="title" class="input" name="title" [(ngModel)]="title" required placeholder="Ej. Hips Don't Lie" />
+    </div>
+    <div class="field">
+      <label for="artist">Artista</label>
+      <input id="artist" class="input" name="artist" [(ngModel)]="artist" required placeholder="Ej. Shakira" />
+    </div>
+    <div class="field">
+      <label for="genre">Género</label>
+      <select id="genre" class="input" name="genre" [(ngModel)]="genre">
+        @for (g of genres; track g.value) {
+          <option [value]="g.value">{{ g.label }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label for="plays">Reproducciones</label>
+      <input id="plays" class="input" type="number" min="0" step="100" name="plays" [(ngModel)]="plays" />
+    </div>
+
+    <div class="field field--full">
+      <label for="rel-filter">Canciones similares (aristas del grafo) · {{ related().size }} seleccionadas</label>
+      <input
+        id="rel-filter"
+        class="input"
+        placeholder="Filtrar…"
+        [value]="filter()"
+        (input)="filter.set($any($event.target).value)"
+      />
+      <div class="related">
+        @for (s of filteredSongs(); track s.id) {
+          <label class="chip" [class.chip--on]="related().has(s.id)">
+            <input type="checkbox" [checked]="related().has(s.id)" (change)="toggle(s.id)" />
+            <span class="chip__dot dot--{{ s.genre }}"></span>
+            {{ s.title }}
+          </label>
+        }
+      </div>
+    </div>
+
+    <div class="actions field--full">
+      <button class="btn" type="submit" [disabled]="!title.trim() || !artist.trim()">Insertar canción</button>
+      @if (message(); as msg) {
+        <span class="alert" [class.alert--ok]="msg.ok" [class.alert--error]="!msg.ok">{{ msg.text }}</span>
+      }
+    </div>
+  </form>
+</section>

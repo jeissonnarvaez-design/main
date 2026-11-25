@@ -1,0 +1,172 @@
+@use 'sass:map';
+@use 'tokens' as t;
+@use 'functions' as f;
+@use 'mixins' as m;
+
+:host {
+  display: block;
+}
+
+.grow {
+  flex: 1;
+}
+
+.card__header {
+  flex-wrap: wrap;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: t.$radius-pill;
+  background: t.$color-surface-2;
+  border: 1px solid t.$color-border;
+
+  button {
+    @include m.focus-ring;
+    border: 0;
+    background: transparent;
+    color: t.$color-muted;
+    font: inherit;
+    font-size: f.fs(xs);
+    font-weight: 600;
+    padding: f.space(1) f.space(3);
+    border-radius: t.$radius-pill;
+    cursor: pointer;
+
+    &.on {
+      background: t.$color-primary;
+      color: #fff;
+    }
+  }
+}
+
+.ranking {
+  @include m.reset-list;
+  display: flex;
+  flex-direction: column;
+  gap: f.space(2);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: f.space(3);
+  padding: f.space(2) f.space(3);
+  border-radius: t.$radius-md;
+  background: t.$color-surface-2;
+  border: 1px solid transparent;
+
+  &--selected {
+    border-color: f.tint(t.$color-primary, 0.6);
+  }
+
+  &__pos {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 700;
+    background: t.$color-surface;
+    color: t.$color-muted;
+  }
+
+  // Colores del podio generados desde el mapa $podium-colors
+  @each $pos, $color in t.$podium-colors {
+    &[data-pos='#{$pos}'] &__pos {
+      color: #111;
+      background: $color;
+      box-shadow: 0 0 14px f.tint($color, 0.45);
+    }
+  }
+
+  &__info {
+    @include m.focus-ring;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    text-align: left;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  &__title {
+    @include m.truncate;
+    font-weight: 600;
+  }
+
+  &__artist {
+    @include m.flex($gap: 2);
+    font-size: f.fs(xs);
+    color: t.$color-muted;
+  }
+
+  &__plays {
+    font-family: t.$font-mono;
+    font-size: f.fs(sm);
+  }
+
+  @include m.respond(sm) {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+
+    .btn {
+      grid-column: 2 / -1;
+      justify-self: start;
+    }
+  }
+}
+
+.bar {
+  @include m.progress-bar;
+  margin-top: f.space(1);
+}
+
+.heap {
+  padding: f.space(4);
+  border-radius: t.$radius-md;
+  background: t.$color-bg;
+  border: 1px dashed t.$color-border;
+  overflow-x: auto;
+
+  &__hint {
+    margin: 0 0 f.space(3);
+    font-size: f.fs(xs);
+  }
+
+  &__level {
+    @include m.flex($justify: center, $gap: 2);
+    margin-bottom: f.space(2);
+    min-width: max-content;
+  }
+
+  &__label {
+    font-size: f.fs(xs);
+    color: t.$color-muted;
+    width: 28px;
+  }
+
+  &__node {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 48px;
+    padding: f.space(1) f.space(2);
+    border-radius: t.$radius-sm;
+    background: f.tint(t.$color-primary, 0.15);
+    border: 1px solid f.tint(t.$color-primary, 0.4);
+    font-family: t.$font-mono;
+    font-size: f.fs(xs);
+
+    small {
+      color: t.$color-muted;
+      font-size: 10px;
+    }
+  }
+}

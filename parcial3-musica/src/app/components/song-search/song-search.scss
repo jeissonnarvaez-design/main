@@ -1,0 +1,87 @@
+@use 'tokens' as t;
+@use 'functions' as f;
+@use 'mixins' as m;
+
+:host {
+  display: block;
+}
+
+.search {
+  @include m.flex($gap: 2);
+
+  @include m.respond(sm) {
+    flex-wrap: wrap;
+  }
+}
+
+.subtitle {
+  margin: f.space(5) 0 f.space(2);
+  font-size: f.fs(sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: t.$color-muted;
+}
+
+.suggestions {
+  @include m.reset-list;
+  display: flex;
+  flex-direction: column;
+  gap: f.space(1);
+}
+
+.suggestion {
+  @include m.focus-ring;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'title plays'
+    'meta  plays';
+  gap: 2px f.space(3);
+  align-items: center;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: t.$radius-md;
+  padding: f.space(2) f.space(3);
+  cursor: pointer;
+  transition: background t.$transition;
+
+  &:hover {
+    background: t.$color-surface-2;
+  }
+
+  &--active {
+    border-color: f.tint(t.$color-primary, 0.6);
+    background: f.tint(t.$color-primary, 0.1);
+  }
+
+  &__title {
+    grid-area: title;
+    @include m.truncate;
+
+    strong {
+      color: t.$color-secondary;
+    }
+  }
+
+  &__meta {
+    grid-area: meta;
+    @include m.flex($gap: 2);
+    font-size: f.fs(xs);
+    min-width: 0;
+
+    .muted {
+      @include m.truncate;
+    }
+  }
+
+  &__plays {
+    grid-area: plays;
+    font-family: t.$font-mono;
+    font-size: f.fs(sm);
+    color: t.$color-muted;
+  }
+}

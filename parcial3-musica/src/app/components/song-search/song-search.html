@@ -1,0 +1,75 @@
+<section class="card">
+  <header class="card__header">
+    <span class="card__icon" aria-hidden="true">🔎</span>
+    <div>
+      <h2>Buscador predictivo</h2>
+      <p>Trie de títulos · sugerencias por prefijo</p>
+    </div>
+  </header>
+
+  <form class="search" (submit)="$event.preventDefault(); verify()">
+    <input
+      class="input"
+      type="search"
+      placeholder="Escribe un título, p. ej. «b» o «des»…"
+      autocomplete="off"
+      [value]="query()"
+      (input)="onInput($any($event.target).value)"
+      aria-label="Buscar canción"
+    />
+    <button class="btn" type="submit" [disabled]="!query().trim()">¿Existe?</button>
+    @if (query()) {
+      <button class="btn btn--ghost" type="button" (click)="clear()">Limpiar</button>
+    }
+  </form>
+
+  @if (exactResult(); as r) {
+    @if (r.songs.length) {
+      <p class="alert alert--ok mt-3">
+        ✔ «{{ r.songs[0].title }}» sí existe en el catálogo
+        ({{ r.songs.length === 1 ? r.songs[0].artist : r.songs.length + ' versiones' }}).
+      </p>
+    } @else {
+      <p class="alert alert--error mt-3">✘ «{{ r.query }}» no está en el catálogo.</p>
+    }
+  }
+
+  @if (query().trim()) {
+    <h3 class="subtitle">
+      Sugerencias
+      <span class="muted">({{ suggestions().length }})</span>
+    </h3>
+    @if (suggestions().length) {
+      <ul class="suggestions">
+        @for (song of suggestions(); track song.id) {
+          <li>
+            <button
+              type="button"
+              class="suggestion"
+              [class.suggestion--active]="song.id === selectedId()"
+              (click)="pick(song)"
+            >
+              <span class="suggestion__title">
+                <strong>{{ head(song.title) }}</strong>{{ tail(song.title) }}
+              </span>
+              <span class="suggestion__meta">
+                <span class="badge badge--{{ song.genre }}">{{ song.genre }}</span>
+                <span class="muted">{{ song.artist }}</span>
+              </span>
+              <span class="suggestion__plays">{{ song.plays | number }} ▶</span>
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="empty">
+        Ninguna canción empieza por «{{ query() }}»
+        @if (!hasPrefix()) {
+          — el prefijo no existe en el Trie.
+        }
+      </p>
+    }
+  } @else {
+    <p class="empty">Empieza a escribir para ver sugerencias ordenadas por popularidad.</p>
+  }
+</section>

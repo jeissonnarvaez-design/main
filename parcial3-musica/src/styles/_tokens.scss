@@ -1,0 +1,53 @@
+$color-bg: #0e0f14;
+$color-surface: #171923;
+$color-surface-2: #1f2230;
+$color-border: #2a2e3f;
+$color-text: #eceef5;
+$color-muted: #9097ad;
+$color-primary: #8b5cf6;
+$color-secondary: #22d3ee;
+$color-success: #34d399;
+$color-danger: #f87171;
+$color-warning: #fbbf24;
+$genre-colors: (
+  pop: #f472b6,
+  reggaeton: #fbbf24,
+  rock: #f87171,
+  salsa: #fb923c,
+  electronica: #22d3ee,
+);
+$podium-colors: (
+  1: #fcd34d,
+  2: #cbd5e1,
+  3: #d97706,
+);
+$spacing: (
+  0: 0,
+  1: 4px,
+  2: 8px,
+  3: 12px,
+  4: 16px,
+  5: 24px,
+  6: 32px,
+  7: 48px,
+);
+$font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+$font-sizes: (
+  xs: 12px,
+  sm: 14px,
+  md: 16px,
+  lg: 20px,
+  xl: 28px,
+);
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 18px;
+$radius-pill: 999px;
+$shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
+$transition: 180ms ease;
+$breakpoints: (
+  sm: 600px,
+  md: 900px,
+  lg: 1200px,
+);

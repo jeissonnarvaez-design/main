@@ -1,0 +1,160 @@
+<section class="card">
+  <header class="card__header">
+    <span class="card__icon" aria-hidden="true">🕸️</span>
+    <div class="grow">
+      <h2>Recomendaciones</h2>
+      <p>Grafo no dirigido de similitud · recorrido BFS hasta 2 saltos</p>
+    </div>
+    <select
+      class="input picker"
+      aria-label="Canción seleccionada"
+      [value]="selected()?.id ?? ''"
+      (change)="select($any($event.target).value)"
+    >
+      <option value="">— Elige una canción —</option>
+      @for (s of songs(); track s.id) {
+        <option [value]="s.id" [selected]="s.id === selected()?.id">{{ s.title }} · {{ s.artist }}</option>
+      }
+    </select>
+  </header>
+
+  <div class="layout">
+    <div class="graph">
+      <svg viewBox="-110 -10 820 620" role="img" aria-label="Grafo de canciones similares">
+        @for (e of layout().edges; track $index) {
+          <line
+            [attr.x1]="e.a.x"
+            [attr.y1]="e.a.y"
+            [attr.x2]="e.b.x"
+            [attr.y2]="e.b.y"
+            [class.active]="e.active"
+            [class.path]="e.path"
+          />
+        }
+        @for (n of layout().nodes; track n.song.id) {
+          <g
+            class="node node--{{ n.song.genre }}"
+            [class.node--selected]="depth(n.song.id) === 0"
+            [class.node--d1]="depth(n.song.id) === 1"
+            [class.node--d2]="depth(n.song.id) === 2"
+            [class.node--faded]="selected() && depth(n.song.id) === undefined"
+            (click)="select(n.song.id)"
+            tabindex="0"
+            (keydown.enter)="select(n.song.id)"
+          >
+            <title>{{ n.song.title }} — {{ n.song.artist }}</title>
+            <circle [attr.cx]="n.x" [attr.cy]="n.y" [attr.r]="depth(n.song.id) === 0 ? 14 : 9" />
+            <text [attr.x]="n.lx" [attr.y]="n.ly" [attr.text-anchor]="n.anchor">{{ short(n.song.title) }}</text>
+          </g>
+        }
+      </svg>
+      <div class="legend">
+        <span><i class="legend__sel"></i>Seleccionada</span>
+        <span><i class="legend__d1"></i>Directa (1 salto)</span>
+        <span><i class="legend__d2"></i>Indirecta (2 saltos)</span>
+        <span><i class="legend__path"></i>Camino</span>
+      </div>
+    </div>
+
+    <div class="side">
+      @if (selected(); as s) {
+        <div class="now">
+          <span class="muted">Si te gusta</span>
+          <strong>{{ s.title }}</strong>
+          <span class="muted">{{ s.artist }} · {{ s.plays | number }} reproducciones</span>
+        </div>
+
+        <h3 class="subtitle">Similares directas ({{ direct().length }})</h3>
+        @if (direct().length) {
+          <ul class="recs">
+            @for (r of direct(); track r.song.id) {
+              <li>
+                <button type="button" (click)="select(r.song.id)">
+                  <span class="badge badge--{{ r.song.genre }}">{{ r.song.genre }}</span>
+                  <span class="recs__title">{{ r.song.title }}</span>
+                  <span class="muted recs__plays">{{ r.song.plays | number }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">Esta canción no tiene conexiones todavía.</p>
+        }
+
+        <h3 class="subtitle">También te podría gustar ({{ indirect().length }})</h3>
+        @if (indirect().length) {
+          <ul class="recs">
+            @for (r of indirect(); track r.song.id) {
+              <li>
+                <button type="button" (click)="select(r.song.id)">
+                  <span class="badge badge--{{ r.song.genre }}">{{ r.song.genre }}</span>
+                  <span class="recs__title">
+                    {{ r.song.title }}
+                    <small class="muted">vía {{ r.via.title }}</small>
+                  </span>
+                  <span class="muted recs__plays">{{ r.song.plays | number }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="empty">No hay canciones a 2 saltos.</p>
+        }
+
+        <h3 class="subtitle">Conexiones</h3>
+        <div class="connect">
+          <select
+            class="input"
+            aria-label="Otra canción"
+            [value]="targetId()"
+            (change)="targetId.set($any($event.target).value)"
+          >
+            <option value="">— Otra canción —</option>
+            @for (o of songs(); track o.id) {
+              @if (o.id !== s.id) {
+                <option [value]="o.id">{{ o.title }}</option>
+              }
+            }
+          </select>
+          <button
+            type="button"
+            class="btn btn--sm"
+            [class.btn--danger]="connected()"
+            [disabled]="!target()"
+            (click)="toggleConnection()"
+          >
+            {{ connected() ? 'Desconectar' : 'Conectar' }}
+          </button>
+        </div>
+        @if (target()) {
+          <p class="path">
+            @if (path().length) {
+              <span class="muted">Camino más corto ({{ path().length - 1 }} saltos):</span>
+              @for (p of path(); track p.id; let last = $last) {
+                <strong>{{ p.title }}</strong>
+                @if (!last) {
+                  <span class="muted">→</span>
+                }
+              }
+            } @else {
+              <span class="muted">No hay camino entre estas canciones.</span>
+            }
+          </p>
+        }
+        @if (feedback()) {
+          <p class="alert alert--ok">{{ feedback() }}</p>
+        }
+        <button type="button" class="btn btn--ghost btn--sm mt-3" (click)="removeSelected()">
+          Eliminar «{{ s.title }}» del catálogo
+        </button>
+      } @else {
+        <p class="empty">
+          Selecciona una canción (en el grafo, el buscador o el ranking) para ver recomendaciones.
+        </p>
+        @if (feedback()) {
+          <p class="alert alert--ok">{{ feedback() }}</p>
+        }
+      }
+    </div>
+  </div>
+</section>

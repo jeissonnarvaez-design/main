@@ -1,0 +1,70 @@
+@use 'tokens' as t;
+@use 'functions' as f;
+@use 'mixins' as m;
+
+:host {
+  display: block;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: f.space(4);
+
+  @include m.respond(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field--full {
+  grid-column: 1 / -1;
+}
+
+.related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: f.space(2);
+  max-height: 150px;
+  overflow-y: auto;
+  padding: f.space(1) 0;
+}
+
+.chip {
+  @include m.flex($gap: 2);
+  padding: f.space(1) f.space(3);
+  border-radius: t.$radius-pill;
+  border: 1px solid t.$color-border;
+  font-size: f.fs(xs);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background t.$transition,
+    border-color t.$transition;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:has(input:focus-visible) {
+    outline: 2px solid t.$color-secondary;
+    outline-offset: 2px;
+  }
+
+  &--on {
+    background: f.tint(t.$color-primary, 0.2);
+    border-color: t.$color-primary;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+}
+
+.actions {
+  @include m.flex($gap: 3);
+  flex-wrap: wrap;
+}

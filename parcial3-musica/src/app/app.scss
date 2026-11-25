@@ -1,0 +1,139 @@
+@use 'tokens' as t;
+@use 'functions' as f;
+@use 'mixins' as m;
+
+:host {
+  display: block;
+}
+
+.shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: f.space(6) f.space(5) f.space(7);
+
+  @include m.respond(sm) {
+    padding: f.space(4);
+  }
+}
+
+// ---------------- Barra superior ----------------
+.topbar {
+  @include m.flex($justify: space-between, $gap: 4);
+  flex-wrap: wrap;
+  margin-bottom: f.space(5);
+}
+
+.brand {
+  @include m.flex($gap: 3);
+
+  h1 {
+    margin: 0;
+    font-size: f.fs(xl);
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, t.$color-text, t.$color-secondary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p {
+    margin: 0;
+    color: t.$color-muted;
+    font-size: f.fs(sm);
+  }
+
+  &__logo {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: t.$radius-md;
+    font-size: 28px;
+    color: #fff;
+    background: linear-gradient(135deg, t.$color-primary, t.$color-secondary);
+    box-shadow: 0 8px 24px f.tint(t.$color-primary, 0.45);
+  }
+}
+
+.pills {
+  @include m.reset-list;
+  @include m.flex($gap: 2);
+  flex-wrap: wrap;
+
+  li {
+    @include m.badge(t.$color-secondary);
+  }
+}
+
+// ---------------- Tarjetas de resumen ----------------
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: f.space(4);
+  margin-bottom: f.space(5);
+
+  @include m.respond(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tile {
+  @include m.card(4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+
+  &__label {
+    font-size: f.fs(xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: t.$color-muted;
+  }
+
+  &__value {
+    font-size: f.fs(xl);
+    font-weight: 700;
+
+    &--text {
+      font-size: f.fs(lg);
+      @include m.truncate;
+    }
+  }
+
+  &__hint {
+    font-size: f.fs(xs);
+    color: t.$color-muted;
+  }
+
+  &--accent {
+    background: linear-gradient(135deg, f.tint(t.$color-primary, 0.35), t.$color-surface 70%);
+    border-color: f.tint(t.$color-primary, 0.5);
+  }
+}
+
+// ---------------- Rejilla principal ----------------
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: f.space(5);
+  align-items: start;
+
+  .span-2 {
+    grid-column: 1 / -1;
+  }
+
+  > * {
+    min-width: 0;
+  }
+
+  @include m.respond(md) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.footer {
+  margin-top: f.space(6);
+  text-align: center;
+  font-size: f.fs(xs);
+}

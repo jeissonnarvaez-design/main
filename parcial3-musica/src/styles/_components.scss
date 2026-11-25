@@ -1,0 +1,108 @@
+@use 'sass:map';
+@use 'tokens' as t;
+@use 'functions' as f;
+@use 'mixins' as m;
+
+.card {
+  @include m.card;
+
+  &__header {
+    @include m.panel-header;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: t.$radius-md;
+    font-size: 20px;
+    background: f.tint(t.$color-primary, 0.18);
+  }
+}
+
+.btn {
+  @include m.button;
+
+  &--secondary {
+    @include m.button(t.$color-secondary, #04222a);
+  }
+
+  &--danger {
+    @include m.button(t.$color-danger, #2b0b0b);
+  }
+
+  &--ghost {
+    @include m.button-ghost;
+  }
+
+  &--sm {
+    padding: f.space(1) f.space(3);
+    font-size: f.fs(xs);
+  }
+}
+
+.input {
+  @include m.input;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: f.space(1);
+
+  > label {
+    font-size: f.fs(xs);
+    color: t.$color-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+}
+
+.badge {
+  @include m.badge(t.$color-muted);
+}
+
+@each $genre, $color in t.$genre-colors {
+  .badge--#{$genre} {
+    @include m.badge($color);
+  }
+
+  .dot--#{$genre} {
+    background: $color;
+  }
+}
+
+.alert {
+  padding: f.space(2) f.space(3);
+  border-radius: t.$radius-sm;
+  font-size: f.fs(sm);
+
+  &--ok {
+    color: t.$color-success;
+    background: f.tint(t.$color-success, 0.12);
+  }
+
+  &--error {
+    color: t.$color-danger;
+    background: f.tint(t.$color-danger, 0.12);
+  }
+}
+
+.muted {
+  color: t.$color-muted;
+}
+
+.empty {
+  color: t.$color-muted;
+  font-size: f.fs(sm);
+  text-align: center;
+  padding: f.space(5) 0;
+}
+
+@each $key, $value in t.$spacing {
+  .mt-#{$key} {
+    margin-top: $value;
+  }
+}

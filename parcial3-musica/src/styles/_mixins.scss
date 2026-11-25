@@ -1,0 +1,149 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'tokens' as t;
+@use 'functions' as f;
+
+@mixin respond($bp) {
+  @media (max-width: map.get(t.$breakpoints, $bp)) {
+    @content;
+  }
+}
+
+@mixin card($padding: 5) {
+  background: t.$color-surface;
+  border: 1px solid t.$color-border;
+  border-radius: t.$radius-lg;
+  padding: f.space($padding);
+  box-shadow: t.$shadow-card;
+}
+
+@mixin panel-header {
+  display: flex;
+  align-items: center;
+  gap: f.space(3);
+  margin-bottom: f.space(4);
+
+  h2 {
+    margin: 0;
+    font-size: f.fs(lg);
+  }
+
+  p {
+    margin: 0;
+    color: t.$color-muted;
+    font-size: f.fs(sm);
+  }
+}
+
+@mixin flex($justify: flex-start, $align: center, $gap: 3) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  gap: f.space($gap);
+}
+
+@mixin button($bg: t.$color-primary, $fg: #fff) {
+  appearance: none;
+  border: 1px solid transparent;
+  background: $bg;
+  color: $fg;
+  font: inherit;
+  font-weight: 600;
+  font-size: f.fs(sm);
+  padding: f.space(2) f.space(4);
+  border-radius: t.$radius-pill;
+  cursor: pointer;
+  transition:
+    background t.$transition,
+    transform t.$transition;
+
+  &:hover:not(:disabled) {
+    background: color.adjust($bg, $lightness: 6%);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  @include focus-ring;
+}
+
+@mixin button-ghost($color: t.$color-text) {
+  @include button(transparent, $color);
+  border-color: t.$color-border;
+
+  &:hover:not(:disabled) {
+    background: f.tint($color, 0.08);
+  }
+}
+
+@mixin badge($color) {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px f.space(2);
+  border-radius: t.$radius-pill;
+  font-size: f.fs(xs);
+  font-weight: 600;
+  color: $color;
+  background: f.tint($color, 0.14);
+  border: 1px solid f.tint($color, 0.35);
+  white-space: nowrap;
+}
+
+@mixin input {
+  width: 100%;
+  box-sizing: border-box;
+  background: t.$color-surface-2;
+  border: 1px solid t.$color-border;
+  color: t.$color-text;
+  font: inherit;
+  padding: f.space(2) f.space(3);
+  border-radius: t.$radius-sm;
+  transition: border-color t.$transition;
+
+  &::placeholder {
+    color: t.$color-muted;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: t.$color-primary;
+    box-shadow: 0 0 0 3px f.tint(t.$color-primary, 0.25);
+  }
+}
+
+@mixin focus-ring($color: t.$color-secondary) {
+  &:focus-visible {
+    outline: 2px solid $color;
+    outline-offset: 2px;
+  }
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin reset-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin progress-bar($color: t.$color-primary, $height: 6px) {
+  height: $height;
+  border-radius: t.$radius-pill;
+  background: t.$color-surface-2;
+  overflow: hidden;
+
+  > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, $color, t.$color-secondary);
+    transition: width 400ms ease;
+  }
+}
